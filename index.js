@@ -97,10 +97,10 @@ function drawGraph() {
       var stats = getStatsForDisc(row);
 
       _.each(headers, function(header) {
-        if (row[header]) {
-          newRow.push(row[header]);
-        } else if (stats[header]) {
+        if (stats[header]) {
           newRow.push(stats[header]);
+        } else if (row[header]) {
+          newRow.push(row[header]);
         } else {
           newRow.push('');
         }

@@ -116,7 +116,8 @@ function drawGraph() {
       return {
         title: _.upperFirst(header)
       }
-    })
+    }),
+    pageLength: 25
   });
 }
 

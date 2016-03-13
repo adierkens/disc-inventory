@@ -5,21 +5,95 @@
     <script src="https://cdn.datatables.net/1.10.11/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.11/js/dataTables.bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.6.1/lodash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-modal/2.2.6/js/bootstrap-modalmanager.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-modal/2.2.6/js/bootstrap-modal.min.js"></script>
     <script src='index.js'></script>
     <script src="https://spreadsheets.google.com/feeds/list/1eddYGB4q8YAPi_Yj-Nn9d_Ldia84azf0NWs5WuyVqBk/1/public/basic?alt=json-in-script&callback=inventoryCallback"></script>
     <script src="https://spreadsheets.google.com/feeds/list/1eddYGB4q8YAPi_Yj-Nn9d_Ldia84azf0NWs5WuyVqBk/2/public/basic?alt=json-in-script&callback=manufacturerCallback"></script>
+    <script src="https://spreadsheets.google.com/feeds/list/1eddYGB4q8YAPi_Yj-Nn9d_Ldia84azf0NWs5WuyVqBk/3/public/basic?alt=json-in-script&callback=manufacturerCallback"></script>
 
     <!-- CSS -->
     <link rel="stylesheet" href="styles.css"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.11/css/dataTables.bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-modal/2.2.6/css/bootstrap-modal.min.css">
   </head>
   <body>
 
     <div class="col-sm-1" id="sidebar-container">
+      <div class="row">
+        <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#addDiscModal">Add Disc</button>
+      </div>
     </div>
     <div class="col-sm-11" id="body-container">
       <table id="inventory-table" class="table table-striped table-bordered" cellspacing="0" width="100%"></table>
+      <div class="modal fade" id="addDiscModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <H4 class="modal-title">Add a disc</H4>
+            </div>
+            <div class="modal-body">
+              <div id="add-disc-form">
+                <form class="form-horizontal">
+
+                  <div class="form-group">
+                    <label for="add-disc-manufacturer" class="col-sm-2 control-label">Manufacturer</label>
+                    <div class="col-sm-10">
+                      <select id="add-disc-manufacturer" class="form-control"></select>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="add-disc-mold" class="col-sm-2 control-label">Mold</label>
+                    <div class="col-sm-10">
+                      <select id="add-disc-mold" disabled class="form-control"></select>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="add-disc-plastic" class="col-sm-2 control-label">Plastic</label>
+                    <div class="col-sm-10">
+                      <select id="add-disc-plastic" disabled class="form-control"></select>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="add-disc-color" class="col-sm-2 control-label">Color</label>
+                    <div class="col-sm-10">
+                      <select id="add-disc-color" disabled class="form-control">
+                        <option>Blue</option>
+                        <option>Yellow</option>
+                        <option>Green</option>
+                        <option>Red</option>
+                        <option>Orange</option>
+                        <option>Purple</option>
+                        <option>Pink</option>
+                        <option>White</option>
+                        <option>Clear</option>
+                        <option>Tie Dye</option>
+                        <option>Other</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="add-disc-weight" class="col-sm-2 control-label">Weight</label>
+                    <div class="col-sm-10">
+                      <input disabled id="add-disc-weight" type="number">
+                    </div>
+                  </div>
+
+                </form>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button class="btn btn-default" data-dismiss="modal">Close</button>
+              <button class="btn btn-primary">Add</button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </body>
 </html>

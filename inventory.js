@@ -16,6 +16,8 @@ var headers = [
   'fade',
   'where'
 ];
+var scriptID = '1Gy09DZYwrNDFXRazkLiRzYdjRTxpjTQomsOofFZxN4OmJ9ml0zVb9IsB';
+var sheetID = '1eddYGB4q8YAPi_Yj-Nn9d_Ldia84azf0NWs5WuyVqBk';
 
 function parseCells(data, firstColumn) {
   var rows = [];
@@ -124,3 +126,36 @@ function drawGraph() {
 $(document).ready(function() {
   drawGraph();
 });
+
+function addDisc(disc) {
+  var request = {
+    function: 'addDisc',
+    parameters: disc,
+    devMode: true
+  };
+
+  var op = gapi.client.request({
+    root: 'https://script.googleapis.com',
+    path: 'v1/scripts/' + scriptID + ':run',
+    method: 'POST',
+    body: request
+  });
+
+  op.execute(function(resp) {
+    if (resp.error && resp.error.status) {
+      // The API encountered a problem before the script started executing.
+      console.log('Error calling API: ' + JSON.stringify(resp, null, 2));
+    } else if (resp.error) {
+      // The API executed, but the script returned an error.
+      var error = resp.error.details[0];
+      console.log('Script error! Message: ' + error.errorMessage);
+    } else {
+      // Here, the function returns an array of strings.
+      var sheetNames = resp.response.result;
+      console.log('Sheet names in spreadsheet:');
+      sheetNames.forEach(function(name){
+        console.log(name);
+      });
+    }
+  });
+}

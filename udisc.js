@@ -11,18 +11,19 @@ var googleChart = {
   holeData: {},
   options : {
     title: 'Scores for',
+    subtitle: 'Frequency of scores per hole',
     interpolateNulls: false,
-    hAxis: {
-    },
     histogram: {
       bucketSize: 1,
       minValue: 1,
       maxValue: 10
     },
     chartArea: {
-      height: 600,
-      width: 600
-    }
+      left:0,
+      height: "80%",
+      width: "75%"
+    },
+    curveType: 'function'
   },
   dataView: null,
   chart: null,
@@ -31,7 +32,7 @@ var googleChart = {
 
 const herokuURL = "https://tranquil-ocean-50368.herokuapp.com/";
 
-google.charts.load("current", {packages:["corechart"]});
+google.charts.load('current', {'packages':['line']});
 
 const stateAbbreviations = {
   Canada: {
@@ -111,21 +112,36 @@ const stateAbbreviations = {
   }
 };
 
-var dataTable = [];
+function holeSelectChanged() {
+  var columns = [];
+  columns.push(0);
+  $("#holeSelect option").filter(':selected').each(function() {
+    var hole = $(this).val();
+    columns.push(parseInt(hole, 10) + 1);
+  });
 
-function showHole(holeNum) {
-  googleChart.dataView.showColumns([holeNum]);
-  googleChart.chart.draw(googleChart.dataView, googleChart.options);
-}
-
-function hideHole(holeNum) {
-  googleChart.dataView.hideColumns([holeNum]);
+  googleChart.dataView.setColumns(columns);
   googleChart.chart.draw(googleChart.dataView, googleChart.options);
 }
 
 function loadCourseGraph(responseData) {
   var courseName = $("#udisc-course-course-search option").filter(":selected").text();
 
+
+  $(window).resize(_.debounce(function() {
+    googleChart.chart.draw(googleChart.dataView, googleChart.options);
+  }));
+
+  $('#holeSelect').find('option').remove();
+  $('#holeSelect').on('change', holeSelectChanged);
+
+  for (var i=0; i<18; i++) {
+    $("#holeSelect").append($("<option></option>")
+      .attr("value", i.toString())
+      .text("Hole " + (i + 1))
+      .attr('selected', true)
+    );
+  }
 
   _.each(responseData, function(scorecardEntry) {
     if (scorecardEntry.numberOfHoles !== 18 || scorecardEntry.skipedHoles > 0) {
@@ -177,7 +193,7 @@ function loadCourseGraph(responseData) {
 
   googleChart.dataView = new google.visualization.DataView(googleChart.data);
 
-  var chart = new google.visualization.LineChart(document.getElementById('course_chart'));
+  var chart = new google.charts.Line(document.getElementById('course_chart'));
   googleChart.options.title = "Scores for " + courseName;
   chart.draw(googleChart.data, googleChart.options);
   googleChart.chart = chart;

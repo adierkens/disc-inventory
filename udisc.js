@@ -156,7 +156,6 @@ function loadCourseGraph(responseData) {
     });
   });
 
-
   googleChart.data = new google.visualization.DataTable();
   googleChart.data.addColumn('number', 'Strokes');
 
@@ -175,6 +174,8 @@ function loadCourseGraph(responseData) {
 
     googleChart.data.addRow(row);
   }
+
+  googleChart.dataView = new google.visualization.DataView(googleChart.data);
 
   var chart = new google.visualization.LineChart(document.getElementById('course_chart'));
   googleChart.options.title = "Scores for " + courseName;

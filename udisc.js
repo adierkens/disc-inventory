@@ -141,7 +141,9 @@ function loadCourseGraph(responseData) {
         }
 
         if (!googleChart.holeData[holeScore.hole]) {
-          googleChart.holeData[holeScore.hole] = {};
+          googleChart.holeData[holeScore.hole] = {
+            total: 0
+          };
         }
 
         if (!googleChart.holeData[holeScore.hole][bin]) {
@@ -149,6 +151,7 @@ function loadCourseGraph(responseData) {
         }
 
         googleChart.holeData[holeScore.hole][bin] += 1;
+        googleChart.holeData[holeScore.hole]['total'] += 1;
       }
     });
   });
@@ -165,7 +168,9 @@ function loadCourseGraph(responseData) {
     var row = [];
     row.push(strokeCount);
     for (var holeNum=1; holeNum<=18; holeNum++) {
-      row.push(googleChart.holeData[holeNum][strokeCount] || 0);
+      var count = googleChart.holeData[holeNum][strokeCount] || 0;
+      var percent = count/googleChart.holeData[holeNum].total;
+      row.push(percent * 100);
     }
 
     googleChart.data.addRow(row);

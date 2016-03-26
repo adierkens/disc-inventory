@@ -2,7 +2,6 @@
 var udisc = {
   applicationID: 'X7O7gSaOUxCv9cTAHSASADcGtaRq7Kf9a4gNA8rn',
   clientID: 'M3Dwdciw8FvvvZoFOsyCkDTZQusGIpXsjX1houlT',
-  courseURL: 'https://regasoftwarecom.netfirms.com/scripts/experimental/all_states_json_only.js',
   courses: [],
   courseSelection: []
 };
@@ -230,9 +229,9 @@ $(document).ready(function() {
   });
 
   $.ajax({
-    url: 'https://crossorigin.me/' + udisc.courseURL,
+    url: herokuURL + '/courses.json',
     success: function(data, status) {
-      udisc.courses = data.courses;
+      udisc.courses = data;
 
       var coursesByState = {};
 
